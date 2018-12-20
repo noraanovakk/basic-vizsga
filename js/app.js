@@ -47,23 +47,25 @@ function getDatas(arr) {
   var table = document.createElement('table');
   table.setAttribute('id', 'list__table');
   div.appendChild(table);
+  // var button = document.querySelector('#search-button');
+  // button.setAttribute('onclick', 'searchShip()');
   var createRows = '';
   for (var i = 0; i < arr.length; i++) {
     createRows +=
             `
             <tr>
-            <td>${arr[i].id}</td>
-            <td>${arr[i].consumables}</td>
-            <td>${arr[i].denomination}</td>
-            <td>${arr[i].cargo_capacity}</td>
-            <td>${arr[i].passengers}</td>
-            <td>${arr[i].max_atmosphering_speed}</td>
-            <td>${arr[i].crew}</td>
-            <td>${arr[i].lengthiness}</td>
-            <td>${arr[i].model}</td>
-            <td>${arr[i].cost_in_credits}</td>
-            <td>${arr[i].manufacturer}</td>
-            <td><img src="../img/${arr[i].image}" alt="space" onerror="this.src='../img/luke_skywalker.jpg'"></td>
+            <td class="tr__td">${arr[i].id}</td>
+            <td class="tr__td">${arr[i].consumables}</td>
+            <td class="tr__td">${arr[i].denomination}</td>
+            <td class="tr__td">${arr[i].cargo_capacity}</td>
+            <td class="tr__td">${arr[i].passengers}</td>
+            <td class="tr__td">${arr[i].max_atmosphering_speed}</td>
+            <td class="tr__td">${arr[i].crew}</td>
+            <td class="tr__td">${arr[i].lengthiness}</td>
+            <td class="tr__td">${arr[i].model}</td>
+            <td class="tr__td">${arr[i].cost_in_credits}</td>
+            <td class="tr__td">${arr[i].manufacturer}</td>
+            <td class="tr__td"><img src="../img/${arr[i].image}" alt="space" onerror="this.src='../img/luke_skywalker.jpg'"></td>
             </tr>
             `;
     table.innerHTML = createRows;
@@ -101,8 +103,57 @@ function statistics(arr) {
           `;
     div2.innerHTML = p;
   }
-  console.log(maxCapacity);
 }
+
+function addOnclick(arr) {
+  document.querySelector('#search-button').addEventListener('click', function () {searchShip(arr);});
+}
+
+// function getElement(arr) {
+//   for (var i = 0; i < arr.length; i++) {
+//     var td = document.querySelector('.tr__td');
+//   }
+//   addCustomListenerForTd(td, arr, i);
+// }
+
+// function addCustomListenerForTd(element, characters, index) {
+//   element.addEventListener('click', function () { searchShip(characters, index); });
+// }
+
+
+function searchShip(arr) {
+  var div = document.querySelector('.one-spaceship');
+  var div2 = document.createElement('div');
+  div2.setAttribute('id', 'search__div2');
+  div.appendChild(div2);
+  var table = '';
+  var input = document.querySelector('#search-text').value;
+  for (var i = 0; i < arr.length; i++) {
+    table =
+                `
+                <p class="search__p">${arr[i].id}</p>
+                <p class="search__p">${arr[i].consumables}</p>
+                <p class="search__p">${arr[i].denomination}</p>
+                <p class="search__p">${arr[i].cargo_capacity}</p>
+                <p class="search__p">${arr[i].passengers}</p>
+                <p class="search__p">${arr[i].max_atmosphering_speed}</p>
+                <p class="search__p">${arr[i].crew}</p>
+                <p class="search__p">${arr[i].lengthiness}</p>
+                <p class="search__p">${arr[i].model}</p>
+                <p class="search__p">${arr[i].cost_in_credits}</p>
+                <p class="search__p">${arr[i].manufacturer}</p>
+                <p class="search__p"><img src="../img/${arr[i].image}" alt="ship" onerror="this.src='../img/leia_organa.jpg'"></p>
+                `;
+    if (arr[i].model === input) {
+      div2.innerHTML = table;
+      console.log(table);
+      break;
+    } else {
+      div2.innerHTML = 'not found';
+    }
+  }
+}
+
 
 function getSpacesipsJsonData(url, callbackFunc) {
   // Írj egy xmlHTTPRequest-et, ami elkéri a json mappába lévő spaceships.json file-t.
@@ -125,6 +176,8 @@ function successAjax(xhttp) {
   var better = unknownToBe(corrected);
   getDatas(better);
   statistics(better);
+  // searchShip(better);
+  addOnclick(better);
 }
 
 // Hívd meg a getSpacesipsJsonData függvényt a megfelelő paraméterekkel

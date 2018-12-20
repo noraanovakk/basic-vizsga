@@ -79,3 +79,15 @@ div{
     left: 20px;
   }
 }
+
+#search__div2 {
+  color: white;
+  height: 50rem;
+  top: 0;
+  position: absolute;
+  border: 0;
+}
+#search__p{
+  position: absolute;
+  top: 0;
+}
