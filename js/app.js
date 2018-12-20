@@ -70,6 +70,40 @@ function getDatas(arr) {
   }
 }
 
+function statistics(arr) {
+  var div = document.querySelector('.shapceship-list');
+  var div2 = document.createElement('div');
+  div2.setAttribute('id', 'statistics__div');
+  div.appendChild(div2);
+  var p = '';
+  var countCrew = 0;
+  var maxCapacity = arr[0];
+  var longestShip = arr[0];
+  var imgOfLongestShip = longestShip.image;
+  var sumPassengers = 0;
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i].crew === 1) {
+      countCrew++;
+    } else if (arr[i].cargo_capacity > maxCapacity.cargo_capacity) {
+      maxCapacity = arr[i];
+    } else if (arr[i].lengthiness > longestShip.lengthiness) {
+      longestShip = arr[i];
+    } else if (arr[i].passengers !== 'unknown') {
+      sumPassengers += arr[i].passengers;
+    }
+    p =
+          `
+          <p class="statistics__p">Egy fős legénységgel rendelkező hajók darabszáma: ${countCrew}</p>
+          <p class="statistics__p">A legnagyobb cargo kapacitással rendelkező hajó neve:${maxCapacity.denomination}, kapacitása: ${maxCapacity.cargo_capacity}</p>
+          <p class="statistics__p">Az összes hajó utasainak összesített száma: ${sumPassengers}</p>
+          <p class="statistics__p">A leghosszabb hajó:${longestShip.denomination} <br> képe: </p>
+          <img src="../img/${imgOfLongestShip}" alt="longestShipEver" onerror="this.src='../img/leia_organa.jpg'">
+          `;
+    div2.innerHTML = p;
+  }
+  console.log(maxCapacity);
+}
+
 function getSpacesipsJsonData(url, callbackFunc) {
   // Írj egy xmlHTTPRequest-et, ami elkéri a json mappába lévő spaceships.json file-t.
   // Ez a függvény paraméterént az url-t és a successAjax callback function kapja meg
@@ -90,6 +124,7 @@ function successAjax(xhttp) {
   var corrected = deleteNull(spaceShips);
   var better = unknownToBe(corrected);
   getDatas(better);
+  statistics(better);
 }
 
 // Hívd meg a getSpacesipsJsonData függvényt a megfelelő paraméterekkel
